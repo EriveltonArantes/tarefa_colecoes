@@ -1,55 +1,60 @@
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        List<String> nomesMasculinos = new ArrayList<>();
-        List<String> nomesFemininos = new ArrayList<>();
+        Scanner s = new Scanner(System.in);
 
-        do {
-            System.out.print("Digite um nome de usuário: ");
-            String nome = scanner.nextLine();
+        System.out.println("Oi, você quer fazer a parte 1 ou a parte 2 do exercício? (Responda com 1 ou 2)");
+        int respotas = s.nextInt();
 
-            System.out.print("É masculino ou feminino? (M/F): ");
-            String genero = scanner.nextLine();
-
-            if (genero.equalsIgnoreCase("M") || genero.equalsIgnoreCase("masculino")) {
-                nomesMasculinos.add(nome);
-            } else if (genero.equalsIgnoreCase("F") || genero.equalsIgnoreCase("feminino")) {
-                nomesFemininos.add(nome);
+        while ((respotas == 1) || (respotas == 2)) {
+            if (respotas == 1) {
+                System.out.println("******* PARTE 1 ******");
+                commaSeparated();
             } else {
-                System.out.println("Opção de gênero inválida. Ignorando o nome.");
+                System.out.println("******* PARTE 2 ******");
+                dashSeparated();
             }
 
-            System.out.print("Deseja adicionar mais um nome? (S/N): ");
-            String resposta = scanner.nextLine();
-            if (!resposta.equalsIgnoreCase("S") && !resposta.equalsIgnoreCase("sim")) {
-                break;
+            System.out.println("E agora, você quer fazer a parte 1 ou a parte 2 do exercício? (Responda com 1 ou 2 - Para sair, digite 0)");
+            respotas = s.nextInt();
+        }
+    }
+
+    private static void commaSeparated() {
+        Scanner s = new Scanner(System.in);
+        System.out.println("Insira alguns nomes separados por vírgula:");
+        String names = s.nextLine().toLowerCase();
+
+        String[] namesList = names.split(",");
+        Arrays.sort(namesList);
+
+        System.out.println("Nomes ordenados: " + Arrays.toString(namesList));
+    }
+
+    private static void dashSeparated() {
+        Scanner s = new Scanner(System.in);
+        System.out.println("Insira os nomes com o sexo separado por traço. Use F ou M para o sexo. Exemplo: [Michael-M] ou [Luiza-F]:");
+        String names = s.nextLine().toLowerCase();
+
+        String[] namesArray = names.split(",");
+        int numerosElementos = namesArray.length;
+
+        List<String> listaDeDivisaoPorSexoMasculino = new ArrayList<>();
+        List<String> listaDeDivisaoPorSexoFeminino = new ArrayList<>();
+
+        for (int i = 0; i < numerosElementos; i++) {
+            String[] dividoPorDash = namesArray[i].split("-");
+            String nomePorElemento = dividoPorDash[0];
+
+            if (dividoPorDash[1].equalsIgnoreCase("m")) {
+                listaDeDivisaoPorSexoMasculino.add(nomePorElemento);
+            } else if (dividoPorDash[1].equalsIgnoreCase("f")) {
+                listaDeDivisaoPorSexoFeminino.add(nomePorElemento);
             }
-        } while (true);
-
-        // Ordenar os nomes em ordem alfabética
-        Collections.sort(nomesMasculinos);
-        Collections.sort(nomesFemininos);
-
-        // Imprimir os nomes separados por vírgulas com o gênero
-        System.out.println("Nomes masculinos:");
-        for (String nome : nomesMasculinos) {
-            System.out.println("Masculino: " + nome);
         }
 
-        System.out.println("\nNomes femininos:");
-        for (String nome : nomesFemininos) {
-            System.out.println("Feminino: " + nome);
-        }
-
-        // Calcular e exibir o total de nomes
-        int totalMasculinos = nomesMasculinos.size();
-        int totalFemininos = nomesFemininos.size();
-        System.out.println("\nTotal de nomes masculinos: " + totalMasculinos);
-        System.out.println("Total de nomes femininos: " + totalFemininos);
+        System.out.println("Lista de nomes masculina: " + listaDeDivisaoPorSexoMasculino);
+        System.out.println("Lista de nomes feminina: " + listaDeDivisaoPorSexoFeminino);
     }
 }
